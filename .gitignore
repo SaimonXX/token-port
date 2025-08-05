@@ -1,0 +1,11 @@
+# Código compilado
+dist/
+
+# Logs
+logs/
+
+# Dependencias
+node_modules/
+
+# Variables de entorno locales
+.env

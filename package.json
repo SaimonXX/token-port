@@ -1,0 +1,79 @@
+{
+  "name": "token-port",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A robust authentication server built with Node.js, TypeScript, and Hexagonal Architecture.",
+  "license": "ISC",
+  "author": "https://github.com/SaimonXX",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SaimonXX/token-port.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SaimonXX/token-port/issues"
+  },
+  "homepage": "https://github.com/SaimonXX/token-port/#readme",
+  "keywords": [
+    "auth",
+    "typescript",
+    "hexagonal-architecture",
+    "typeorm",
+    "passport"
+  ],
+  "type": "module",
+  "main": "dist/app/server.js",
+  "scripts": {
+    "x": "tsx src/config/routes.config.ts",
+    "dev": "tsx watch src/app/server.ts",
+    "start": "node dist/app/server.js",
+    "build": "npm run clean && tsc && tsc-alias",
+    "clean": "rimraf dist/",
+    "check": "biome check --apply ./src",
+    "lint": "biome lint ./src",
+    "format": "biome format --write ./src",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:typeorm": "tsx ./node_modules/typeorm/cli.js -d ./src/config/data-source.ts",
+    "db:migration:generate": "npm run db:typeorm -- migration:generate",
+    "db:migration:run": "npm run db:typeorm -- migration:run",
+    "db:migration:revert": "npm run db:typeorm -- migration:revert",
+    "prepare": "husky && git config core.hooksPath .husky"
+  },
+  "dependencies": {
+    "@logtail/node": "0.5.5",
+    "@logtail/winston": "0.5.5",
+    "cookie-parser": "1.4.7",
+    "cors": "2.8.5",
+    "dotenv": "16.5.0",
+    "express": "5.1.0",
+    "jsonwebtoken": "9.0.2",
+    "passport": "0.7.0",
+    "passport-github2": "0.1.12",
+    "passport-google-oauth20": "2.0.0",
+    "pg": "8.16.2",
+    "safe-stable-stringify": "2.5.0",
+    "typeorm": "0.3.25",
+    "winston": "3.17.0",
+    "zod": "4.0.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2",
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
+    "@types/cookie-parser": "1.4.9",
+    "@types/cors": "2.8.19",
+    "@types/express": "5.0.3",
+    "@types/jsonwebtoken": "9.0.10",
+    "@types/node": "24.0.14",
+    "@types/passport": "1.0.17",
+    "@types/passport-github2": "1.2.9",
+    "@types/passport-google-oauth20": "2.0.16",
+    "@types/pg": "8.15.4",
+    "cross-env": "7.0.3",
+    "husky": "9.1.7",
+    "rimraf": "6.0.1",
+    "tsc-alias": "1.8.16",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
+}
