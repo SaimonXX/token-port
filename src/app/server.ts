@@ -2,14 +2,12 @@ import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import passport from 'passport';
 //
 
 import { AppDataSource } from '@config/data-source.js';
 import { env } from '@config/env.js';
 import { routes } from '@config/routes.config.js';
 import { createErrorHandler } from '@infrastructure/http/middlewares/errorHandler.js';
-import { configurePassport } from '@infrastructure/security/passport.adapter.js';
 //
 
 import { AuthenticateWithExternalProviderUseCase } from '@modules/auth/application/authenticate-with-external-provider.use-case.js';
@@ -46,8 +44,6 @@ const bootstrap = async (): Promise<void> => {
 		// Controllers
 		const authController = new DefaultAuthController(generateTokensUseCase);
 
-		configurePassport(authenticateWithExternalProviderUseCase);
-		app.use(passport.initialize());
 
 		// ROUTES
 		const authRouter = createAuthRouter(authController);
