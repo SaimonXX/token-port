@@ -1,3 +1,5 @@
+import type { Providers } from "@modules/shared/domain/oauth.domain.js";
+
 // --- Behavioral Contracts ---
 export interface AuthService {
 	findUserById: (id: string) => Promise<User | null>;
@@ -54,6 +56,12 @@ export type CreateIdentityInput = Pick<Identity, 'provider' | 'providerKey'>;
 export type CreateUserInput = Pick<User, 'name' | 'email' | 'photoUrl'>;
 
 export type FindIdentityInput = Pick<Identity, 'provider' | 'providerKey'>;
+export type TokenExchangeInput = {
+  authorizationCode: string
+  provider: Providers
+  redirectUri: string
+  codeVerifier: string
+}
 
 // --- Output Types
 

@@ -14,9 +14,12 @@ import { AuthenticateWithExternalProviderUseCase } from '@modules/auth/applicati
 import { DefaultAuthController } from '@modules/auth/infrastructure/http/auth.controller.js';
 import { createAuthRouter } from '@modules/auth/infrastructure/http/auth.routes.js';
 import { PostgresAuthRepository } from '@modules/auth/infrastructure/persistence/typeorm/auth.postgres.repository.js';
+
 //
 
+import { OAuthProviderFactory } from '@infrastructure/oauth/provider.factory.js';
 import { JwtTokenService } from '@infrastructure/security/jwt.token.service.js';
+import { ExchangeCodeUseCase } from '@modules/auth/application/exchange-code.use-case.js';
 import { GenerateTokensUseCase } from '@modules/auth/application/generate-tokens.use-case.js';
 import { winstonLogger } from '@modules/shared/infrastructure/logger/winston.logger.js';
 
@@ -35,15 +38,22 @@ const bootstrap = async (): Promise<void> => {
 
 		const postgresAuthRepository = new PostgresAuthRepository(AppDataSource);
 		const jwtTokenService = new JwtTokenService();
+		const oAuthProviderFactory = new OAuthProviderFactory();
 
 		// UseCases
 		const authenticateWithExternalProviderUseCase =
 			new AuthenticateWithExternalProviderUseCase(postgresAuthRepository);
 		const generateTokensUseCase = new GenerateTokensUseCase(jwtTokenService);
+		const exchangeCodeUseCase = new ExchangeCodeUseCase(
+			oAuthProviderFactory,
+			authenticateWithExternalProviderUseCase,
+		);
 
 		// Controllers
-		const authController = new DefaultAuthController(generateTokensUseCase);
-
+		const authController = new DefaultAuthController(
+			generateTokensUseCase,
+			exchangeCodeUseCase,
+		);
 
 		// ROUTES
 		const authRouter = createAuthRouter(authController);

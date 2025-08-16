@@ -7,17 +7,7 @@ const definitions = {
 		base: 'auth',
 		endpoints: {
 			email: 'email',
-			google: 'google',
-			googleCallback: 'google/callback',
-			github: 'github',
-			githubCallback: 'github/callback',
-		},
-	},
-	products: {
-		base: 'products',
-		endpoints: {
-			getAll: '',
-			getById: ':productId',
+			tokenExchange: 'token/exchange',
 		},
 	},
 } as const;

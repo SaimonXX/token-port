@@ -1,27 +1,31 @@
 import type { NextFunction, Request, Response } from 'express';
+
 //
 
+import type { ExchangeCodeUseCase } from '@modules/auth/application/exchange-code.use-case.js';
 import type { GenerateTokensUseCase } from '@modules/auth/application/generate-tokens.use-case.js';
-import type { UserProfileDTO } from '@modules/auth/domain/auth.domain.js';
+
+// import type { UserProfileDTO } from '@modules/auth/domain/auth.domain.js';
 
 class DefaultAuthController {
-	// private readonly generateTokensUseCase: GenerateTokensUseCase;
+	constructor(
+		private readonly generateTokensUseCase: GenerateTokensUseCase,
+		private readonly exchangeCodeUseCase: ExchangeCodeUseCase,
+	) {}
 
-	constructor(private readonly generateTokensUseCase: GenerateTokensUseCase) {}
-
-	public externalProviderCallback = async (
+	public exchangeCode = async (
 		req: Request,
 		res: Response,
 		next: NextFunction,
 	): Promise<void> => {
 		try {
-			const userProfile = req.user as UserProfileDTO;
-			const tokens = await this.generateTokensUseCase.execute(userProfile);
+			const user = await this.exchangeCodeUseCase.execute(req.body);
+			const tokens = await this.generateTokensUseCase.execute(user);
 
 			res.status(200).json({
 				status: 'success',
 				data: {
-					user: userProfile,
+					user,
 					tokens,
 				},
 			});

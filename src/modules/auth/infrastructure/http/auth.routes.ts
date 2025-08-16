@@ -8,6 +8,10 @@ const createAuthRouter = (authController: DefaultAuthController) => {
 	const router = Express.Router();
 	const endpoints = routes.auth.endpoints;
 
+	router.post(
+		`/${endpoints.tokenExchange.path}`,
+		authController.exchangeCode
+	)
 	return router;
 };
 
